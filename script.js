@@ -4,8 +4,8 @@ const scoreDisplay = document.getElementById('score');
 
 let birdTop = 200;
 let velocity = 0;
-let gravity = 0.5;
-let lift = -8;
+let gravity = 0.35;   // Lebih ringan → jatuh lebih lambat
+let lift = -5.5;      // Loncatan sedang → tidak terlalu tinggi
 let isGameOver = false;
 let score = 0;
 
@@ -21,7 +21,9 @@ document.addEventListener('touchstart', jump);
 function gameLoop() {
   if (isGameOver) return;
 
+  // Tambahkan sedikit damping agar animasi lebih halus
   velocity += gravity;
+  velocity *= 0.98; // sedikit peredam (buat animasi lebih smooth)
   birdTop += velocity;
   bird.style.top = birdTop + 'px';
 
@@ -36,7 +38,7 @@ function createPipe() {
   if (isGameOver) return;
 
   const pipeWidth = 60;
-  const gapHeight = 180; // Lebar celah antar pipa (revisi)
+  const gapHeight = 180;
   const pipeLeftStart = 400;
 
   const pipeTopHeight = Math.floor(Math.random() * 250) + 50;
@@ -90,8 +92,8 @@ function createPipe() {
   const pipeInterval = setInterval(movePipe, 20);
 }
 
-// Jarak antar pipa diperjauh (revisi jadi 2.8 detik)
-setInterval(createPipe, 2800);
+// Lebih menantang tapi tetap playable (2.5 detik antar pipa)
+setInterval(createPipe, 2500);
 
 function endGame() {
   isGameOver = true;
